@@ -1,6 +1,7 @@
 package org.shinybot;
 
 import me.duncte123.botcommons.BotCommons;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.DisconnectEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ReconnectedEvent;
@@ -15,6 +16,7 @@ import java.io.FileNotFoundException;
 
 public class Listener extends ListenerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(bot.class);
+    private final CommandManager manager = new CommandManager();
 
     protected String myId = "743218702022869083";
 
@@ -39,6 +41,12 @@ public class Listener extends ListenerAdapter {
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         super.onGuildMessageReceived(event);
         try {
+            User user = event.getAuthor();
+
+            if (user.isBot() || event.isWebhookMessage()) {
+                return;
+            }
+
             String prefix = Config.getPrefix();
             String raw = event.getMessage().getContentRaw();
 
@@ -46,6 +54,12 @@ public class Listener extends ListenerAdapter {
                 BotCommons.shutdown(event.getJDA());
                 LOGGER.info("{} IS SHUTTING DOWN", event.getJDA().getSelfUser().getAsTag());
                 event.getJDA().shutdownNow();
+
+                return;
+            }
+
+            if (raw.startsWith(prefix)) {
+                manager.handle(event);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
