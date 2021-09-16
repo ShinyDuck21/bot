@@ -21,37 +21,41 @@ public class HelpCmd implements ICommand {
 
     @Override
     public void handle(CommandContext ctx) throws FileNotFoundException {
-        List<String> args = ctx.getArgs();
-        TextChannel channel = ctx.getChannel();
-        Member member = ctx.getMember();
+        int i = 0;
+        if (i == 1) {
+            List<String> args = ctx.getArgs();
+            TextChannel channel = ctx.getChannel();
+            Member member = ctx.getMember();
 
-        if (args.isEmpty()) {
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setTitle("List of Commands")
-                    .setColor(member.getColor());
-            for (int i = 0; i < manager.getCommands().size(); i++) {
-                ICommand cmd = manager.getCommands().get(i);
+            if (args.isEmpty()) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("List of Commands")
+                        .setColor(member.getColor());
 
-                builder.addField(cmd.getName(), cmd.getHelp(), true);
+                StringBuilder desc = builder.getDescriptionBuilder();
+                manager.getCommands().forEach(ICommand -> {
+                    desc.append("'").append(ICommand.getName()).append("'\n");
+                });
+
+                channel.sendMessage(builder.build()).queue();
+                return;
             }
 
+            String search = args.get(0);
+            ICommand cmd = manager.getCommand(search);
+            if (cmd == null) {
+                channel.sendMessage("Nothing found for " + search).queue();
+                return;
+            }
+
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setTitle(cmd.getName())
+                    .setDescription(cmd.getHelp())
+                    .setColor(member.getColor());
+
             channel.sendMessage(builder.build()).queue();
-            return;
+            i++;
         }
-
-        String search = args.get(0);
-        ICommand cmd = manager.getCommand(search);
-        if (cmd == null) {
-            channel.sendMessage("Nothing found for " + search).queue();
-            return;
-        }
-
-        EmbedBuilder builder = new EmbedBuilder()
-                .setTitle(cmd.getName())
-                .setDescription(cmd.getHelp())
-                .setColor(member.getColor());
-
-        channel.sendMessage(builder.build()).queue();
     }
 
     @Override
