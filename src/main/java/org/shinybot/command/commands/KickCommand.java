@@ -61,7 +61,7 @@ public class KickCommand implements ICommand {
 
     @Override
     public String getHelp() throws FileNotFoundException {
-        return "Kicks a member from the server\n" +
+        return "ADMIN COMMAND\n" +
                 "Usage: " + Config.getPrefix() + "kick <@user> <reason>";
     }
 }

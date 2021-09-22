@@ -1,6 +1,7 @@
 package org.shinybot.command.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.shinybot.CommandManager;
@@ -21,25 +22,27 @@ public class HelpCmd implements ICommand {
 
     @Override
     public void handle(CommandContext ctx) throws FileNotFoundException {
-        int i = 0;
-        if (i == 1) {
             List<String> args = ctx.getArgs();
             TextChannel channel = ctx.getChannel();
             Member member = ctx.getMember();
 
-            if (args.isEmpty()) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setTitle("List of Commands")
-                        .setColor(member.getColor());
+                if (args.isEmpty()) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setTitle("List of Commands")
+                            .setColor(member.getColor());
 
-                StringBuilder desc = builder.getDescriptionBuilder();
-                manager.getCommands().forEach(ICommand -> {
-                    desc.append("'").append(ICommand.getName()).append("'\n");
-                });
+                    List<ICommand> modCmds = org.shinybot.CommandManager.modCmds;
+                    manager.getCommands().forEach(ICommand -> {
+                        try {
+                            builder.addField(ICommand.getName(), ICommand.getHelp(), true);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    });
 
-                channel.sendMessage(builder.build()).queue();
-                return;
-            }
+                    channel.sendMessage(builder.build()).queue();
+                    return;
+                }
 
             String search = args.get(0);
             ICommand cmd = manager.getCommand(search);
@@ -49,14 +52,13 @@ public class HelpCmd implements ICommand {
             }
 
             EmbedBuilder builder = new EmbedBuilder()
-                    .setTitle(cmd.getName())
-                    .setDescription(cmd.getHelp())
-                    .setColor(member.getColor());
+                .setTitle(cmd.getName())
+                .setDescription(cmd.getHelp())
+                .setColor(member.getColor());
 
             channel.sendMessage(builder.build()).queue();
-            i++;
         }
-    }
+
 
     @Override
     public String getName() {

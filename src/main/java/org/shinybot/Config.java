@@ -1,11 +1,13 @@
 package org.shinybot;
 
+import org.shinybot.command.ICommand;
 import org.shinybot.utility.readFiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Config {
