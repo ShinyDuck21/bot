@@ -31,7 +31,6 @@ public class HelpCmd implements ICommand {
                             .setTitle("List of Commands")
                             .setColor(member.getColor());
 
-                    List<ICommand> modCmds = org.shinybot.CommandManager.modCmds;
                     manager.getCommands().forEach(ICommand -> {
                         try {
                             builder.addField(ICommand.getName(), ICommand.getHelp(), true);

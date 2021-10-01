@@ -1,14 +1,10 @@
 package org.shinybot;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.Nullable;
 import org.shinybot.command.CommandContext;
 import org.shinybot.command.ICommand;
 import org.shinybot.command.commands.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -18,16 +14,14 @@ import java.util.regex.Pattern;
 
 public class CommandManager {
     private final List<ICommand> commands = new ArrayList<ICommand>();
-    public static List<ICommand> adminCmds = new ArrayList<ICommand>();
-    public static List<ICommand> modCmds = new ArrayList<ICommand>();
 
     public CommandManager() {
         addCommand(new HelpCmd(this));
         addCommand(new PingCmd());
         addCommand(new KickCommand());
         addCommand(new TwitchCmd());
-        addCommand(new TwitterCmd());
         addCommand(new YoutubeCmd());
+        addCommand(new BanCmd());
     }
 
     private void addCommand(ICommand cmd) {
@@ -63,9 +57,6 @@ public class CommandManager {
                 .split("\\s+");
         String invoke = split[0].toLowerCase();
         ICommand cmd = this.getCommand(invoke);
-
-        modCmds.add(new KickCommand());
-        modCmds.add(new ConsoleCmd());
 
         if (cmd != null) {
             event.getChannel().sendTyping().queue();

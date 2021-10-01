@@ -12,7 +12,4 @@ public interface ICommand {
     default List<String> getAliases() {
         return List.of();
     }
-    default List<Role> roleThatCanUseCmd() {
-        return List.of();
-    }
 }
