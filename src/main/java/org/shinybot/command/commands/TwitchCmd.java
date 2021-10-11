@@ -17,7 +17,7 @@ public class TwitchCmd implements ICommand {
         Member member = ctx.getMember();
 
         builder.setTitle("Twitch").setColor(member.getColor()).setDescription("Why Don't you follow Sith Gamer on Twitch")
-                .addField("Link", "https://www.twitch.tv/sith_gameryt?ab_channel=sith_gameryt", true)
+                .addField("Link", "https://www.twitch.tv/shinyduck21", true)
                 .setThumbnail("https://toppng.com/uploads/preview/vk-share-button-twitch-logo-png-round-115632587509jpncx0qwu.png");
 
         ctx.getChannel().sendMessage(builder.build()).queue();

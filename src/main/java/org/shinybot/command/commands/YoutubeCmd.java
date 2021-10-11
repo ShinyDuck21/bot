@@ -14,7 +14,7 @@ public class YoutubeCmd implements ICommand {
         Member member = ctx.getMember();
         EmbedBuilder builder = new EmbedBuilder().setTitle("Youtube").setColor(member.getColor())
                 .setThumbnail("https://logos-world.net/wp-content/uploads/2020/04/YouTube-Emblem.png")
-                .setDescription("If you haven't subed to sith gamer. Do so now.")
+                .setDescription("If you haven't subbed to sith gamer. Do so now.")
                 .addField("Link:", "https://www.youtube.com/channel/UCh8W5OtX7HtarcwBtVToQdQ/sub_confirmation", true);
 
         ctx.getChannel().sendMessage(builder.build()).queue();

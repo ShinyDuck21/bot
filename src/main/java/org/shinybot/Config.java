@@ -1,5 +1,7 @@
 package org.shinybot;
 
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.shinybot.command.ICommand;
 import org.shinybot.utility.readFiles;
 import org.slf4j.Logger;
@@ -7,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.channels.Channel;
 import java.util.List;
 import java.util.Scanner;
 

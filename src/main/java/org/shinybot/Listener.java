@@ -1,10 +1,12 @@
 package org.shinybot;
 
+import dorkbox.notify.Notify;
 import me.duncte123.botcommons.BotCommons;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.DisconnectEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ReconnectedEvent;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -23,18 +25,33 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onReady(@Nonnull ReadyEvent event) {
         LOGGER.info("{} is ready", event.getJDA().getSelfUser().getAsTag());
+        Notify.create()
+                .title("READY")
+                .text(event.getJDA().getSelfUser().getAsTag() + " IS READY")
+                .darkStyle()
+                .showInformation();
     }
 
     @Override
     public void onReconnect(@NotNull ReconnectedEvent event) {
         super.onReconnect(event);
         LOGGER.info("{} has reconnected", event.getJDA().getSelfUser().getAsTag());
+        Notify.create()
+                .title("RECONNECTED")
+                .text(event.getJDA().getSelfUser().getAsTag() + " has reconnected")
+                .darkStyle()
+                .showConfirm();
     }
 
     @Override
     public void onDisconnect(@NotNull DisconnectEvent event) {
         super.onDisconnect(event);
         LOGGER.warn("{} is disconnected", event.getJDA().getSelfUser().getAsTag());
+        Notify.create()
+                .title("DISCONNECTED")
+                .text(event.getJDA().getSelfUser().getAsTag() + " has disconnected")
+                .darkStyle()
+                .showWarning();
     }
 
     @Override
@@ -64,6 +81,5 @@ public class Listener extends ListenerAdapter {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 }

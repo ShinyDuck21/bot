@@ -22,6 +22,8 @@ public class CommandManager {
         addCommand(new TwitchCmd());
         addCommand(new YoutubeCmd());
         addCommand(new BanCmd());
+        addCommand(new addBadWordCmd());
+        addCommand(new removeBadWordCmd());
     }
 
     private void addCommand(ICommand cmd) {

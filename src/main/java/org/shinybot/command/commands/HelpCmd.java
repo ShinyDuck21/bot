@@ -8,6 +8,7 @@ import org.shinybot.CommandManager;
 import org.shinybot.Config;
 import org.shinybot.command.CommandContext;
 import org.shinybot.command.ICommand;
+import org.shinybot.utility.DiscordLogger;
 
 import java.io.FileNotFoundException;
 import java.util.EnumMap;

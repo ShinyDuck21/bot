@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.User;
 import org.shinybot.Config;
 import org.shinybot.command.CommandContext;
 import org.shinybot.command.ICommand;
+import org.shinybot.utility.DiscordLogger;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -22,7 +23,7 @@ public class KickCommand implements ICommand {
         List<String> args = ctx.getArgs();
 
         if (args.size() < 2 || message.getMentionedMembers().isEmpty()) {
-            org.shinybot.utility.error.sendMissingArgsEmbed(channel, member);
+            org.shinybot.utility.error.sendMissingArgsEmbed(channel, member, new KickCommand());
             return;
         }
 
@@ -52,6 +53,8 @@ public class KickCommand implements ICommand {
                 (__) -> channel.sendMessage("User is kicked").queue(),
                 (error) -> channel.sendMessageFormat("Could not kick ", error.getMessage()).queue()
         );
+
+        DiscordLogger.sendLogMessage(ctx.getEvent(), ctx.getGuild(), new KickCommand(), target);
     }
 
     @Override

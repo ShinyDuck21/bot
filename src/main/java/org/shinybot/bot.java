@@ -30,7 +30,7 @@ public class bot {
                                     CacheFlag.EMOTE,
                                     CacheFlag.VOICE_STATE
                             ))
-                        .addEventListeners(new Listener())
+                        .addEventListeners(new Listener(), new AutoMod(), new Welcome())
                         .setActivity(Activity.watching("your mom"))
                         .build();
     }

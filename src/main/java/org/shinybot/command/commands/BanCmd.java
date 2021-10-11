@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.*;
 import org.shinybot.Config;
 import org.shinybot.command.CommandContext;
 import org.shinybot.command.ICommand;
+import org.shinybot.utility.DiscordLogger;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -18,7 +19,7 @@ public class BanCmd implements ICommand {
         List<String> args = ctx.getArgs();
 
         if (args.size() < 2 || message.getMentionedMembers().isEmpty()) {
-            org.shinybot.utility.error.sendMissingArgsEmbed(channel, member);
+            org.shinybot.utility.error.sendMissingArgsEmbed(channel, member, new BanCmd());
             return;
         }
 
@@ -51,8 +52,10 @@ public class BanCmd implements ICommand {
 
         ctx.getGuild().ban(target, 1, reason).reason(reason).queue(
                 (__) -> channel.sendMessage("User is banned").queue(),
-                (error) -> channel.sendMessageFormat("Could not kick ", error.getMessage()).queue()
+                (error) -> channel.sendMessageFormat("Could not ban ", error.getMessage()).queue()
         );
+
+        DiscordLogger.sendLogMessage(ctx.getEvent(), ctx.getGuild(), new BanCmd(), target);
     }
 
     @Override
@@ -63,6 +66,6 @@ public class BanCmd implements ICommand {
     @Override
     public String getHelp() throws FileNotFoundException {
         return "Bans a user\n" +
-                "Usage: "+ Config.getPrefix() + "@<user> <reason>";
+                "Usage: "+ Config.getPrefix() + "ban @<user> <reason>";
     }
 }
